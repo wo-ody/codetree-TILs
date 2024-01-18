@@ -117,12 +117,21 @@ public class Main {
         int id = numbering.get(r_id);// 내가 부여한 id
 
         if(box_not[id]) return -1;
+        
 
         int front_id = box[id][0];
         int back_id = box[id][1];
+        int belt_num = box[id][3];
 
+        // box
         box[front_id][1] = back_id;
         box[back_id][0] = front_id;
+        box_not[id] = true;
+        
+        // belt
+        if(belt[belt_num][0] == id) belt[belt_num][0] = back_id;
+        else if(belt[belt_num][1] == id) belt[belt_num][1] = front_id;
+        
 
         return r_id;
     }
