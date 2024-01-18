@@ -99,9 +99,11 @@ public class Main {
             // 뒤로 보내기
             else {
                 int back_id = belt[i][1];
+                if(belt[i][0] == belt[i][1]) continue;
                 //belt
                 belt[i][0] = box[front_id][1];
                 belt[i][1] = front_id;
+
                 //box
                 box[back_id][1] = front_id;
                 box[front_id][0] = back_id;
