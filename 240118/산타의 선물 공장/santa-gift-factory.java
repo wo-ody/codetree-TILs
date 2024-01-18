@@ -94,7 +94,7 @@ public class Main {
 
                 // belt
                 belt[i][0] = back_id;
-                if(back_id == 0) belt[i][0];
+                if(back_id == 0) belt[i][1] = 0;
             }
             // 뒤로 보내기
             else {
