@@ -88,13 +88,19 @@ public class Main {
                 result += box[front_id][2];
 
                 int back_id = (int)box[front_id][1];
-                // box
-                box[back_id][0] = 0;
-                box_not[front_id] = true;
+                if(back_id == 0){
+                    belt[i][0] = 0;
+                    belt[i][1] = 0;
+                    box_not[front_id] = true;
+                }
+                else {
+                    // box
+                    box[back_id][0] = 0;
+                    box_not[front_id] = true;
 
-                // belt
-                belt[i][0] = back_id;
-                if(back_id == 0) belt[i][1] = 0;
+                    // belt
+                    belt[i][0] = back_id;
+                }
             }
             // 뒤로 보내기
             else {
