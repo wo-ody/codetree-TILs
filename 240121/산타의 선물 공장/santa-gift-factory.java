@@ -83,7 +83,7 @@ public class Main {
             // 변경 - belt 앞,뒤 / box 앞,뒤
             // w_max 이하, 하차
             int front_id = belt[i][0];
-            if(belt_not[i]) continue; // 부서진 belt
+            if(belt_not[i]|| front_id == 0) continue; // 부서진 belt
             if (box[front_id][2] <= w_max) {
                 result += box[front_id][2];
 
