@@ -5,7 +5,7 @@ public class Main {
     static int Q,N,M;
 
     static int[][] belt;
-    static long[][] box;
+    static int[][] box;
     static boolean[] box_not;
     static boolean[] belt_not;
     static HashMap<Integer,Integer> numbering = new HashMap<>();
@@ -45,7 +45,7 @@ public class Main {
         M = Integer.parseInt(st.nextToken());
 
         belt = new int[M+1][2];
-        box = new long[N+1][5];
+        box = new int[N+1][5];
         box_not = new boolean[N+1];
         belt_not = new boolean[M+1];
 
@@ -83,31 +83,25 @@ public class Main {
             // 변경 - belt 앞,뒤 / box 앞,뒤
             // w_max 이하, 하차
             int front_id = belt[i][0];
-            if(belt_not[i] || front_id == 0) continue; // 부서진 belt, 벨트위에 아무것도없음
+            if(belt_not[i]) continue; // 부서진 belt
             if (box[front_id][2] <= w_max) {
                 result += box[front_id][2];
 
-                int back_id = (int)box[front_id][1];
-                if(back_id == 0){
-                    belt[i][0] = 0;
-                    belt[i][1] = 0;
-                    box_not[front_id] = true;
-                }
-                else {
-                    // box
-                    box[back_id][0] = 0;
-                    box_not[front_id] = true;
+                int back_id = box[front_id][1];
+                // box
+                box[back_id][0] = 0;
+                box_not[front_id] = true;
 
-                    // belt
-                    belt[i][0] = back_id;
-                }
+                // belt
+                belt[i][0] = back_id;
+                if(back_id == 0) belt[i][1] = 0;
             }
             // 뒤로 보내기
             else {
                 int back_id = belt[i][1];
                 if(belt[i][0] == belt[i][1]) continue;
                 //belt
-                belt[i][0] = (int)box[front_id][1];
+                belt[i][0] = box[front_id][1];
                 belt[i][1] = front_id;
 
                 //box
@@ -123,13 +117,14 @@ public class Main {
     static int fun_300(StringTokenizer st){
         int r_id = Integer.parseInt(st.nextToken());
         if(!numbering.containsKey(r_id)) return -1;
-
         int id = numbering.get(r_id);// 내가 부여한 id
+
         if(box_not[id]) return -1;
 
-        int front_id = (int)box[id][0];
-        int back_id = (int)box[id][1];
-        int belt_num = (int)box[id][3];
+
+        int front_id = box[id][0];
+        int back_id = box[id][1];
+        int belt_num = box[id][3];
 
         // box
         box[front_id][1] = back_id;
@@ -137,11 +132,10 @@ public class Main {
         box_not[id] = true;
 
         // belt
-        if(belt[belt_num][0] == id) {
-            belt[belt_num][0] = back_id;
-        }
+        if(belt[belt_num][0] == id) belt[belt_num][0] = back_id;
         if(belt[belt_num][1] == id) belt[belt_num][1] = front_id;
-        
+
+
         return r_id;
     }
 
@@ -152,10 +146,10 @@ public class Main {
 
         if(box_not[id]) return -1;
 
-        int belt_num = (int)box[id][3];
+        int belt_num = box[id][3];
         int original_front_id = belt[belt_num][0];
         int original_back_id = belt[belt_num][1];
-        int box_front_id = (int)box[id][0]; // 이어질 부분
+        int box_front_id = box[id][0]; // 이어질 부분
 
         // belt
         belt[belt_num][0] = id;
@@ -198,7 +192,7 @@ public class Main {
             int fid = broken_front_id;
             while(fid != 0){
                 box[fid][3] = move_belt;
-                fid = (int)box[fid][1];
+                fid = box[fid][1];
             }
 
             return b_num;
